@@ -1,0 +1,130 @@
+<html>
+<head>
+<title>TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
+<link rel="stylesheet" href="/static/css/load.css">
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+{% if session["Username"]: %}
+                        <div class="row">
+                          <div class="col-xl-12 col-md-12 mb-12">
+                            <a href="/discord/invite" style="text-decoration:none;"><div class="card shadow h-100 py-2" style="background-color:#2c2f33;">
+                                <div class="card-body" style="background-color:#2c2f33; margin:1px; padding:1px; padding-left:12px;">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-s font-weight-bold text-primary mb-1">
+                                              <i class="fab fa-discord fa-1x text-primary-100"></i>
+                                                Join Our Discord Server!
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></a>
+                        </div>
+                      </div>
+                      <br>
+                              <div class="row">
+                                <div class="col-lg-6 mb-4">
+                                    <a href="/practice" style="text-decoration:none;"><div class="card bg-primary text-white shadow">
+                                        <div class="card-body">
+                                            <center><h1>Practice</h1><h6>with past problems</h6></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <a href="/reaper" style="text-decoration:none;"><div class="card bg-primary text-white shadow">
+                                        <div class="card-body">
+                                            <center><h1>Reap</h1><h6>to win</h6></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                              </div>
+                                <div class="col-lg-12 mb-4">
+                                    <a href="/stage" style="text-decoration:none;"><div class="card bg-secondary text-white shadow">
+                                        <div class="card-body">
+                                            <center><h1>Join the Stage!</h1></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                              </div>
+                           
+{% else %}
+                        <div class="row">
+                          <div class="col-xl-12 col-md-12 mb-12">
+                            <a href="/discord/invite" style="text-decoration:none;"><div class="card border-left-primary shadow h-100 py-2" style="background-color:#2c2f33;">
+                                <div class="card-body" style="background-color:#2c2f33;">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Discord Server</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-100">500+ members</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fab fa-discord fa-2x text-gray-300" style="color: #7289da;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></a>
+                        </div>
+                      </div>
+<br>
+                              <div class="row">
+                                <div class="col-lg-6 mb-4">
+                                    <a href="/login" style="text-decoration:none;"><div class="card bg-primary text-white shadow">
+                                        <div class="card-body">
+                                            <center><h1>Login</h1></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <a href="/signup" style="text-decoration:none;"><div class="card bg-primary text-white shadow">
+                                        <div class="card-body">
+                                            <center><h1>Signup</h1></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                              </div>
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Contests</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>TheCALT holds competitions of various formats that help students get better at competitions. These competitions are meant for middle schoolers but we also release them on our website so you can practice and check your work.</p>
+                                    <p class="mb-0"></p>
+                                </div>
+                            </div>
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Handouts</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>TheCALT team writes handouts on specific topics, usually suggested by people, and goes in depth about what it is and how to use it in competitions. Click the link below to find more information on requesting topics and the list of our handouts. <a href="https://thecalt.com/handouts">View our Handouts!</a></p>
+                                    <p class="mb-0"></p>
+                                </div>
+                            </div>
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Archive</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>If you ever want to practice old tests, make sure to check out our archive! We have a full list of all the past tests, and their answers. You can check your work there. <a href="https://thecalt.com/archive">Visit the Archives!</a></p>
+                                    <p class="mb-0"></p>
+                                </div>
+                            </div>
+{% endif %}
+</div>
+</div>
+</body>
+</html>
+

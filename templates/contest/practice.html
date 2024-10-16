@@ -1,0 +1,52 @@
+<html>
+<head><title>Practice - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+<center><h1>Practice</h1></center>
+<br>
+
+                            <div class="row">
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/practice/round2" style="text-decoration:none;"><div class="card bg-info text-white shadow">
+                                        <div class="card-body">
+                                          <center><img src="/static/images/logo.png" height="50" width="50"><br>
+                                            Round 2
+                                            <div class="text-white-50 small">10 Questions</div></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/practice/round3" style="text-decoration:none;"><div class="card bg-info text-white shadow">
+                                        <div class="card-body">
+                                          <center><img src="/static/images/logo.png" height="50" width="50"><br>
+                                            Round 3
+                                            <div class="text-white-50 small">10 Questions</div></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/practice/opcat" style="text-decoration:none;"><div class="card bg-info text-white shadow">
+                                        <div class="card-body">
+                                          <center><img src="https://c.tenor.com/SUC99SD6vDYAAAAC/no-nones.gif" height="50" width="50"><br>
+                                            OPCAT 2021
+                                            <div class="text-white-50 small">AMC 11 Mock - 25 Questions</div></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                            </div>
+
+
+
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<html>
+<head><title>Signup - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+
+
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                            </div>
+                            <form class="user" action="/signup", method="post">
+                                <div class="form-group">
+                                    <input required type="text" class="form-control form-control-user" id="username"
+                                        placeholder="Username" name="username">
+                                </div>
+                                <div class="form-group">
+                                    <input required type="email" class="form-control form-control-user" id="email"
+                                        placeholder="Email Address" name="email">
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input required type="password" class="form-control form-control-user"
+                                            id="password" placeholder="Password" name="password">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input required type="password" class="form-control form-control-user"
+                                            id="password verify" placeholder="Repeat Password" name="password verify">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                {{ recaptcha }}
+                                </div>
+                                <div class="text-center">
+    {% if incomplete %}
+		<p>The form you filled out is incomplete.</p>
+		{% endif %}
+
+		{% if usnErr %}
+		<p>The username you have chosen has already been taken. Please select a new one!</p>
+		{% endif %}
+
+		{% if pwdErr %}
+		<p>The two passwords you entered do not match.</p>
+		{% endif %}
+
+    {% if mailErr %}
+		<p>The email provided is already in use by another account.</p>
+		{% endif %}
+
+    {% if chars %}
+		<p>The username contained invalid characters!</p>
+		{% endif %}
+
+    {% if cap %}
+		<p>You failed to verify with recaptcha!</p>
+		{% endif %} 
+                                </div>
+                                <input class="btn btn-primary btn-user btn-block" type="submit" value="Sign Up">
+                            </form>
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="/login">Already have an account? Login!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+</div>
+</body>
+</html>

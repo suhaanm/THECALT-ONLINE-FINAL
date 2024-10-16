@@ -1,0 +1,248 @@
+<html>
+<head><title>Transcript - {{cname}} - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--<link rel="stylesheet" href="/static/css/print.css" media="print">-->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js"></script>
+<script src="https://unpkg.com/dompurify@2.2.2/dist/purify.min.js"></script>
+
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <button onclick="window.print();" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Download </button>
+                    </div>
+
+
+<div class="printreport" id="printreport">
+<center>
+<img src="/static/images/logo.png" width="65" height="65"><!--<span style="font-size:30px; color:#6c6c6c; font-weight:bold;">TheCALT</span>-->
+</center><br>
+<center><h3 style="font-weight:bold; color:#0c96f5;">Class {{num}} - {{cname}}</h3></center>
+<div class="messages">
+{% set pre = [] %}
+{% for i in messageList: %}
+{% if i[2] == "true": %}
+<div class="mesg">
+  {% if pre[-1] != i[0]: %}
+  <div class="msg-name">
+    {{i[0]}}
+  </div>
+  {% endif %}
+  <div class="msg-cont">
+    {{i[1]}}
+  </div>
+</div>
+{% if pre.append(i[0]): %}{% endif %}
+{% endif %}
+{% endfor %}
+</div>
+
+</div>
+
+
+<style>
+:root {
+    --loading: white;
+    --header: #d8d1e2;
+
+    --nav: rgb(230, 230, 230);
+    --nav-btn: #0c96f5;
+    --nav-btnh: #0c96f5;
+    --nav-color: white;
+
+    --chat: white;
+    --chat-name: #0c96f5;
+    --chat-text: #525455;
+
+    --input: rgb(230, 230, 230);
+    --upload: #5792ff;
+    --uploadh: #0c96f5;
+    --emoji: #6593d8;
+    --emojih: #abcadf;
+
+    --scroll-back: transparent;
+    --scroll-thumb: rgba(252, 252, 252, 0.7);
+    --scroll-hover: rgba(0, 0, 0, 0.3);
+
+    --user-nav: #0c96f5;
+    --user: rgb(252,252,252);
+    --user-hover: rgba(0, 0, 0, 0.2);
+
+    --highlight: rgba(75, 195, 231, 0.5);
+    --highlight-color: white;
+}
+
+img.img {
+   height: 1em;
+   width: 1em;
+   margin: 0 .05em 0 .1em;
+   vertical-align: -0.1em;
+}
+
+
+
+
+
+::selection {
+    background-color: var(--highlight);
+    color: var(--highlight-color);
+}
+
+.bold {
+    user-select: none;
+    color: var(--header);
+    padding: 8px;
+    font-weight: bolder;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+
+
+
+.mesg {
+    padding: 8px;
+}
+
+.adminmesg{
+  padding: 4px;
+  border-top: 1px solid #abcadf;
+
+}
+
+.msg-name {
+    display: inline-block;
+    color: var(--chat-name);
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.adminmsg-name {
+    display: inline-block;
+    color: var(--chat-name);
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.msg-name:hover {
+    text-decoration: underline;
+}
+
+.adminmsg-name:hover {
+    text-decoration: underline;
+}
+
+.msg-cont {
+    color: var(--chat-text);
+}
+
+.adminmsg-cont {
+    color: var(--chat-text);
+}
+
+
+.messages {
+    flex: 95%;
+    overflow: auto;
+
+    margin: 4px;
+}
+
+
+
+
+.emoji {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    background: var(--emoji);
+    border-radius: 100%;
+
+    padding: 8px;
+
+    align-items: center;
+    justify-content: center;
+    
+    cursor: pointer;
+}
+
+.emoji:hover {
+    background: var(--emojih);
+}
+</style>
+
+
+<style>
+@media print {
+  body * {
+    visibility:hidden;
+  }
+  #printreport, #printreport * {
+    visibility:visible;
+  }
+  #printreport {
+    position:absolute;
+    left:0;
+    top:0;
+  }
+
+  #ignoreme {
+    visibility:hidden;
+  }
+
+.col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12 {
+  float: left;
+}
+.col-xl-12 {
+  width: 100%;
+}
+.col-xl-11 {
+  width: 91.66666666666666%;
+}
+.col-xl-10 {
+  width: 83.33333333333334%;
+}
+.col-xl-9 {
+  width: 75%;
+}
+.col-xl-8 {
+  width: 66.66666666666666%;
+}
+.col-xl-7 {
+  width: 58.333333333333336%;
+}
+.col-xl-6 {
+  width: 50%;
+}
+.col-xl-5 {
+  width: 41.66666666666667%;
+}
+.col-xl-4 {
+  width: 33.33333333333333%;
+ }
+ .col-xl-3 {
+   width: 25%;
+}
+</style>
+</div>
+</div>
+<script>
+    /*twemoji.parse(document.body, {
+        folder: "svg",
+        ext: ".svg",
+        className: "img"
+    });*/
+</script>
+</body>
+</html>

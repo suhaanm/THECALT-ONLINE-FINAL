@@ -1,0 +1,431 @@
+<html>
+<head><title>{{cname}}</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+<!--Important MathJax Stuff-->
+{% block javascript %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="{{ url_for('static', filename='js/mathjax-config.js') }}"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+{%  endblock %}
+<!--Important MathJax Stuff-->
+
+
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'contestnav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+
+
+<div class="row">
+  <div class="col-lg-8 mb-4">
+
+      <form action="/contest/{{cref}}", method="post" id="exam">
+
+      <center><div class="card">
+<h1 class="text-info"><img src="{{ url_for('static', filename='images/logo.png') }}" length="75" width="75">{{cname}}</h1></div><br></center>
+
+      
+      <input readonly type="text" name="firstname" id="firstname" value="{{firstname}}" style="display:none;">
+      <input readonly type="text" name="lastname" id="lastname" value="{{lastname}}" style="display:none;">
+      <input readonly type="text" name="grade" id="grade" value="{{grade}}" style="display:none;">
+
+    {% for i in range(problems|length) %}
+    <div style="{% if i != 0: %} display:none; {% endif %}" id="p{{i+1}}">
+    <div class="card" style="padding:10px;">
+      <h2 class="text-primary">{{i+1}}</h2>
+    <p>{{problems[i]|safe}}</p>
+    {% set qname = "Q" + i|string %}
+    <input type="text" name="{{qname}}" id="{{qname}}" class="form-control form-control-user" placeholder="Answer..." autocomplete="off" onkeydown="return event.key != 'Enter';" onkeyup="changeCircles();">
+    <!--</div>
+    <div class="card">-->
+    <br><div class="row">
+    <div class="col-lg-6 mb-4">
+    {% if i != 0: %}
+    <button style="float:left;" onclick="return show('p{{i}}','p{{i+1}}');" class="btn btn-primary btn-user btn-block">Back</button>
+    {% endif %}
+    </div>
+    <div class="col-lg-6 mb-4">
+    {% if i+1 != problems|length : %}
+    <button style="float:right;" onclick="return show('p{{i+2}}','p{{i+1}}');" class="btn btn-primary btn-user btn-block">Next</button>
+    {% endif %}
+    </div>
+    </div>
+    </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="col-lg-4 mb-4">
+
+<div class="card">
+<div class="card">
+  <center><h1 class="text-primary"><p id="timer" class="timerfix"></p> </h1></center>
+</div>
+<div class="card">
+<button type="button" class="btn btn-primary btn-user btn-block" id="opensubmit">Submit</button>
+</div>
+<div class="card">
+<div class="row" style="padding:5px;">
+  {% for i in range(problems|length): %}
+                                <div class="col-lg-3 mb-2">
+                                  <center>
+                                    <div class="card bg-danger text-white shadow btn-circle" id="bt{{i+1}}" style="display: table-cell; vertical-align: middle; text-align:center; cursor:pointer;">
+                                        <!--<div class="card-body">-->
+                                            {{i+1}}
+                                        <!--</div>-->
+                                    </div>
+                                  </center>
+                                </div>
+  {% endfor %}
+</div>
+</div>
+</div>
+
+
+  </div>
+</div>
+
+
+<div id="submits" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="text-primary">Confirm Submit</h2>
+      <span class="close" id="closesubmit">&times;</span>
+    </div>
+    <div class="modal-body"><br>
+    <h5>Are you sure you want to submit?</h5>
+    <p>You cannot change your response after submitting!</p>
+    <div class="row">
+      <div class="col-lg-6 mb-4">
+        <button type="button" class="btn btn-danger btn-user btn-block" id="shutsubmit">Cancel</button>
+      </div>
+      <div class="col-lg-6 mb-4">
+        <button type="button" class="btn btn-success btn-user btn-block" onclick="submitforme();">Submit</button>
+        <!--<input type="submit" value="Submit" class="btn btn-success btn-user btn-block"/>-->
+        </form>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var isSubmitted = false;
+
+document.getElementById("exam").addEventListener("submit", submitted);
+
+function submitted() {
+  isSubmitted = true;
+}
+
+window.onbeforeunload = function() {
+  if (isSubmitted == false){
+  return "Are you sure you want to navigate away?";
+  }
+}
+
+function submitforme() {
+  if (isSubmitted == false){
+    document.getElementById('exam').submit();
+    isSubmitted = true;
+  }
+}
+</script>
+
+
+<script>
+    function show(shown, hidden) {
+      document.getElementById(hidden).style.display='none';
+      document.getElementById(shown).style.display='block';
+      {% for i in range(problems|length): %}
+      document.getElementById("bt{{i+1}}").onclick = function() {
+      show("p{{i+1}}",shown);
+      };
+      {% endfor %}
+      return false;
+    }
+    {% for i in range(problems|length): %}
+      document.getElementById("bt{{i+1}}").onclick = function() {
+      show("p{{i+1}}","p1");
+      };
+    {% endfor %}
+
+function changeCircles() {
+  {% for i in range(problems|length): %}
+    if (document.getElementById("Q{{i}}").value.replace(/ /g,"") != ""){
+      document.getElementById("bt{{i+1}}").classList.remove('bg-danger');
+      document.getElementById("bt{{i+1}}").classList.add('bg-success');
+    }
+    else {
+      document.getElementById("bt{{i+1}}").classList.remove('bg-success');
+      document.getElementById("bt{{i+1}}").classList.add('bg-danger');
+    }
+  {% endfor %}
+}
+</script>
+
+<script>
+var countDownDate = new Date("{{duetime}}").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  if (days < 0) {
+    clearInterval(x);
+    document.getElementById("timer").innerHTML = "-";
+    if (!(isSubmitted)){
+    document.getElementById('exam').submit(); 
+    }
+  }
+
+  else {
+    if (hours != 0){
+        document.getElementById("timer").innerHTML = hours + "h "
+  + minutes + "m " + seconds + "s ";
+  }
+  else{
+    document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
+  } 
+  }
+
+}, 1000);
+
+$(".sidebar").toggleClass("toggled");
+</script>
+
+
+
+
+
+
+<style>
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  padding-top: 90px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.08); 
+}
+
+.modal-content {
+  position: relative;
+  background-color: white;
+  margin: auto;
+  padding: 0;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  border-radius: 10px;
+  border: 10px solid white;
+}
+
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+.close {
+  color: gray;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #cad3d7;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+</style>
+<style>
+
+@media(prefers-color-scheme:dark){
+.colorature {
+  background-color: #2c2f33;
+}
+
+.modal-content {
+  background-color: #2c2f33;
+  border: 10px solid #2c2f33;
+}
+.modal-header {
+  background-color: #2c2f33;
+}
+
+}
+</style>
+
+
+<div id="rules" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="text-primary">Rules</h2>
+      <span class="close" id="closerules">&times;</span>
+    </div>
+    <div class="modal-body"><br>
+      <h5>General Instructions:</h5>
+       <ul>
+        <li>Your only tools are a writing utensil and blank scrap paper. You may not use graph 
+          paper, protractors, rulers, calculators, or electronic devices (except for one to access 
+          the rounds).</li>
+        <li>Every answer will be an integer between 1 and 2^21 = 2097152, inclusive. While taking 
+          the rounds, please ensure that you do not make any typos in any of your answers.</li>
+        <li>If you find any ambiguities or flaws in a problem in a given round, please email us 
+          after the round is finished at 
+          <a href="mailto:contact@thecalt.com">contact@thecalt.com</a> with the round and 
+          problem number in question. If we decide that the problem is flawed, then we will give 
+          everyone full credit for that problem. Otherwise, please use your best judgment to 
+          determine what the problem is asking while taking the round.</li>
+      </ul>
+      <h5>Round Specific Instructions:</h5>
+      {% if cref == "individual1": %}
+      <ul>
+          <li>There will be 10 questions to be solved in 45 minutes.</li>
+          <li>Each correct answer is worth 1 point. Each incorrect/blank answer is worth 0 points.</li>
+          <li>The difficulty will range from early AMC 12 to mid AIME.</li>
+      </ul>
+      {% endif %}
+      {% if cref == "individual2": %}
+        <ul>
+          <li>There will be 10 questions to be solved in 60 minutes.</li>
+          <li>Each correct answer is worth 1 point. Each incorrect/blank answer is worth 0 points.</li>
+          <li>The difficulty will range from early AMC 12 to late AIME.</li>
+        </ul>
+      {% endif %}
+      {% if cref == "team": %}
+        <ul>
+          <li>There will be 10 questions to be solved in 60 minutes.</li>
+          <li>Each correct answer is worth 2 points. Each incorrect/blank answer is worth 0 points.</li>
+          <li>The difficulty will range from early AMC 12 to beyond late AIME.</li>
+          <li>The team score will be the sum of all individual scores on a team (a total of 
+          4·20 = 80 points) and the team score (a total of 20 points), for a total of 100 points. 
+          Thus, it is advantageous to have the maximal four members on a team.</li>
+          <li>You must collaborate with only your team members. Your team must agree upon a platform 
+            in which you will communicate; the competition managers will not be able to help with this.
+            Any reported collaboration between members of different teams during this round will be 
+            investigated and will likely lead to disqualification.</li>
+        </ul>
+      {% endif %}
+      {% if cref == "contest": %}
+      <ul>
+        <li>This is a trial round, so there are no specific instructions.</li>
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+<script>
+var modal = document.getElementById("rules");
+var btn = document.getElementById("openrules");
+var span = document.getElementById("closerules");
+
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+var modal1 = document.getElementById("submits");
+var btn1 = document.getElementById("opensubmit");
+var span1 = document.getElementById("closesubmit");
+var bt1 = document.getElementById("shutsubmit");
+
+btn1.onclick = function() {
+  modal1.style.display = "block";
+}
+
+span1.onclick = function() {
+  modal1.style.display = "none";
+}
+
+bt1.onclick = function() {
+  modal1.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal1) {
+    modal1.style.display = "none";
+  }
+}
+</script>
+
+<script>
+var socket = io();
+
+function onBlur() {
+  socket.emit('lostfocus',{cname:'{{cname}}',firstname:'{{firstname}}', lastname:'{{lastname}}'});
+};
+function onFocus(){
+  socket.emit('onfocus',{cname:'{{cname}}',firstname:'{{firstname}}', lastname:'{{lastname}}'});
+	document.body.className = 'focused';
+};
+
+if (false) { 
+	document.onfocusin = onFocus;
+	document.onfocusout = onBlur;
+} else {
+	window.onfocus = onFocus;
+	window.onblur = onBlur;
+}
+</script>
+
+
+</div>
+</div>
+</body>
+</html>
+
+
+

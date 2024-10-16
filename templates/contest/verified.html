@@ -1,0 +1,30 @@
+<html>
+<head><title>Verified! - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+<center>
+			<h1>Verified!</h1>
+			<p>You have been verified! You may now login!</p><br>
+                              <div class="row">
+                                <div class="col-lg-6 mb-4">
+                                    <a href="/login" style="text-decoration:none;"><div class="card bg-primary text-white shadow">
+                                        <div class="card-body">
+                                            <center><h1>Login</h1></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                              </div>
+</center>
+</div>
+</div>
+</body>
+</html>

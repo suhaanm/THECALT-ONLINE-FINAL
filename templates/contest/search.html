@@ -1,0 +1,99 @@
+<html>
+<head><title>Search - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+
+<h1>Search Results - {{l|length}}</h1>
+
+                    <!-- Content Row -->
+                    <div class="row">
+                      {% for i in l: %}
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <a href="/user/{{i[0]}}" style="text-decoration:none;"><div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                {{i[1]}}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{i[0]}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-user fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></a>
+                        </div>
+                      {% endfor %}
+
+                    </div>
+
+
+
+<script>
+var socket = io();
+
+var countDownDate = new Date("{{lasttime}}").getTime();
+
+var currentS = 0;
+
+function reapforme() {
+  var rn = new Date();
+  var rns = rn.toUTCString();
+  document.getElementById("owo").innerHTML = "s";
+  socket.emit("reaper verify", {"user":"{{username}}"});
+  socket.emit("ijustreapedlol", {"user":"{{username}}", "score":currentS, "time":rns});
+}
+
+/*socket.on('reaper verify', function() {
+	document.getElementById("reapbutton").disabled = true;​
+});*/
+
+//var countDownDate = new Date().getTime();
+
+var x = setInterval(function() {
+
+  var now = new Date().getTime();
+
+  var distance = now - countDownDate;
+
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  var finals = seconds + 60*minutes + 3600*hours + 86400*days
+  if (days < 0) {
+    clearInterval(x);
+    document.getElementById("timer").innerHTML = "-";
+        window.createNotification({
+			  closeOnClick: true,
+			  displayCloseButton: true,
+			  positionClass: 'nfc-top-right',
+			  showDuration: 60000,
+			  theme: "information"
+		    })({
+			    title: "Submission",
+			    message: "o"
+		    });
+  }
+  else {
+        document.getElementById("timer").innerHTML = finals + "s "; 
+        socket.emit("reaper verify", {"user":"{{username}}"});
+        currentS = finals     
+  }
+}, 1000);
+</script>
+
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel = "icon" href = "static/images/logo.png" type = "image/x-icon">
+	<title>500 - TheCALT Online</title>
+	<link href="https://fonts.googleapis.com/css?family=Oswald:700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:400" rel="stylesheet">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/404.css') }}">
+
+</head>
+
+<body>
+
+	<div id="notfound">
+		<div class="notfound-bg">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<div class="notfound">
+			<div class="notfound-404">
+				<h1>500</h1>
+			</div>
+			<h2>Internal Server Error</h2>
+			<p>The server might be experiencing an error or you have visited a page you don't have access to.{% if not session["Username"]: %}<br>You can try logging in!{% endif %}</p>
+			<a href="/">Home</a>
+      {% if not session["Username"]: %}<br><br><a href="/login">Login</a>{% endif %}
+		</div>
+	</div>
+
+</body>
+</html>

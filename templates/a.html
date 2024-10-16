@@ -1,0 +1,19 @@
+<html>
+<head><title>SECRET PAGE! - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+ORZ U FOUND THE SECRET PAGE!<br>
+<a href="https://thecalt.com/nitro">Here's your free Discord Nitro!</a>
+</div>
+</div>
+</body>
+</html>

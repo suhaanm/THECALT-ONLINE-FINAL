@@ -1,0 +1,84 @@
+<html>
+<head><title>Admin Data - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+<center><h1>Admin Contest Data</h1><p></p></center>
+<br>
+<center>
+                            <div class="row">
+
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/admin/data/contest" style="text-decoration:none;"><div class="card bg-info text-white shadow">
+                                        <div class="card-body">
+                                          <center><img src="/static/images/logo.png" height="50" width="50"><br>
+                                            Trial R1
+                                            <div class="text-white-50 small">Trial Round</div></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/admin/data/contestr2" style="text-decoration:none;"><div class="card bg-info text-white shadow">
+                                        <div class="card-body">
+                                          <center><img src="/static/images/logo.png" height="50" width="50"><br>
+                                            Trial R2
+                                            <div class="text-white-50 small">Trial Round</div></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/admin/data/contestteam" style="text-decoration:none;"><div class="card bg-info text-white shadow">
+                                        <div class="card-body">
+                                          <center><img src="/static/images/logo.png" height="50" width="50"><br>
+                                            Trial Team
+                                            <div class="text-white-50 small">Trial Round</div></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/admin/data/individual1" style="text-decoration:none;"><div class="card bg-info text-white shadow">
+                                        <div class="card-body">
+                                          <center><img src="/static/images/logo.png" height="50" width="50"><br>
+                                            Individual Round 1
+                                            <div class="text-white-50 small">Live Contest</div></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/admin/data/individual2" style="text-decoration:none;"><div class="card bg-info text-white shadow">
+                                        <div class="card-body">
+                                          <center><img src="/static/images/logo.png" height="50" width="50"><br>
+                                            Individual Round 2
+                                            <div class="text-white-50 small">Live Contest</div></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/admin/data/team" style="text-decoration:none;"><div class="card bg-info text-white shadow">
+                                        <div class="card-body">
+                                          <center><img src="/static/images/logo.png" height="50" width="50"><br>
+                                            Team Round
+                                            <div class="text-white-50 small">Live Contest</div></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+
+
+
+
+                            </div>
+</center>
+
+
+</div>
+</div>
+</body>
+</html>

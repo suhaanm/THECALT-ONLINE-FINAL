@@ -1,0 +1,10 @@
+combo
+geo
+alg nt
+alg nt
+geo
+nt
+alg
+alg
+nt
+combo

@@ -1,0 +1,162 @@
+<html>
+<head><title>Profile - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+<center>
+  <img class="img-profile rounded-circle" src="{{av|default("/static/images/logo.png")}}" height="90" width="90">
+  
+  
+  <h1><!--User:--> {% set adminList = ["wiz", "RadialFunction", "bobthefam", "aragoler", "TheCALT", "ezpotd"] %} {% if username in adminList: %} <span class="badge badge-primary badge-counter"><i class="fas fa-crown"></i></span> {% endif %} <!--{{prefix}}--> {{username}}</h1><br>
+                                    <a href="/user/{{username}}" class="btn btn-primary btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                        <span class="text">Your Public Profile</span>
+                                    </a><br>
+<br>
+<h3>Email: {{email}}</h3>
+<br><br>
+
+        {% if des: %}
+        <center><div class="card" style="background-color:#7289da; color:#2c2f33;"><center><br><h2 class="text-gray-300"> <i class="fab fa-discord fa-x text-gray-300" style="color: #7289da;"></i> Discord</h2><hr><h3>{{tag}}</h3><h3><img class="img-profile rounded-circle" src="{{avatar}}" height="75" width="75"></h3></center></div></center>
+        <br><br>
+        {% endif %}
+
+        {% if des == False: %}
+        <center><a href="/discord" style="text-decoration:none;"><div class="card" style="padding:10px; margin:10px;  background-color:#7289da; color:#2c2f33;"><br><center><h3 class="text-gray-300"> <i class="fab fa-discord fa-x text-gray-300" style="color: #7289da;"></i> Link Your Account With Discord</h3></center><br></div></a></center>
+        <br><br>
+        {% endif %}
+        <br><br>
+                        <div class="col-lg-12">
+
+                            <div class="card shadow mb-4">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Practice Scores</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Actions</div>
+                                            <!--<a class="dropdown-item" href="#">Copy to Clipboard</a>-->
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="/profile">Refresh</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="padding:10px; margin:10px; width:85%">
+                                  <table class="table table-bordered" id="dataTable" width="95%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Distribution</th>
+                                            <th>Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      {% for i in status: %}
+                                      <tr>
+                                      <td>{{i[0]}}</td>
+                                      <td>{{i[1]}}</td>
+                                      <td>{{i[2]}}</td>
+                                      </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                  </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4" id="settings" style="padding:10px; margin:10px; width:85%">
+                          <center><h3>Settings</h3></center><br>
+
+                          <form action="/profile", method="post">
+Appearance
+{{ang}}
+                          <select id="appearance" name="appearance" class="form-control form-control-user">
+                          
+                          {% set opts = ["Sync", "Light", "Dark"] %}
+                          <option value="{{ang}}">{{ang}}</option>
+                          {% for i in opts: %}
+                          {% if i != ang: %}
+                          <option value="{{i}}">{{i}}</option>
+                          {% endif %}
+                          {% endfor %}
+                          </select>
+                          <br><br>
+
+                          Set your status
+<textarea id="stat" name="stat" rows="4" cols="50" class="form-control form-control-user">
+{{oldstat}}
+</textarea>
+                          <br>
+                          Display Discord Information
+                          <select id="determine" name="determine" class="form-control form-control-user">
+                          {% if des: %}<option value="yes">Yes</option>{% endif %}
+                          <option value="no">No</option>
+                          </select>
+                          <br><br>
+                          <input type="submit" value="Save Changes" class="btn btn-primary btn-user btn-block"/>
+                          </form>
+                          <br>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-xl-12 col-md-12 mb-12">
+                                                    <a href="https://gravatar.com/" style="text-decoration:none;"><div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                AVATAR</div>
+                                            <div class="h6 mb-0 font-weight-bold text-gray-800">Wanna change your avatar? Head over to Gravatar to set your Gravatar for this site!</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fab fa-grav fa-2x text-gray-300" style="color: #7289da;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></a>
+                            </div>
+                          </div>
+                          <br>
+{% if des == False: %}
+                        <div class="row">
+                          <div class="col-xl-12 col-md-12 mb-12">
+                                                    <a href="/discord"  style="text-decoration:none;"><div class="card border-left-primary border-right-primary shadow h-100 py-2" style="background-color:#2c2f33;">
+                                <div class="card-body" style="background-color:#2c2f33;">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                CONNECT DISCORD</div>
+                                            <div class="h6 mb-0 font-weight-bold text-gray-100">If you haven't connected Your Discord Account yet, we suggest doing so. Connecting your Discord Account enables us to provide further unrestricted access to certain pages. You can always decide if you want to show your Discord Account on your public profile or not!</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fab fa-discord fa-2x text-gray-300" style="color: #7289da;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></a>
+                            </div>
+                          </div>
+
+                        <br>{% endif %}<br><br><br>
+
+
+</center>
+</div>
+</div>
+</body>
+</html>

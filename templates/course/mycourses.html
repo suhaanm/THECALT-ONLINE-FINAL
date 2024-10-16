@@ -1,0 +1,37 @@
+<html>
+<head><title>My Courses - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+<center><h1>My Courses</h1><p></p></center>
+<br>
+<center>
+{%if l|length == 0:%}You're not enrolled in any course!{%endif%}
+                            <div class="row">
+{% for i in l: %}
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/my-courses/{{i[0]}}" style="text-decoration:none;"><div class="card bg-info text-white shadow">
+                                        <div class="card-body">
+                                          <center><img src="/static/images/logo.png" height="50" width="50"><br>
+                                            {{i[1]}}
+                                            <!--<div class="text-white-50 small"></div>--></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+{% endfor %}                                
+                            </div>
+</center>
+
+
+</div>
+</div>
+</body>
+</html>

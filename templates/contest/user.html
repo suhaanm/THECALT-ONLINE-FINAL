@@ -1,0 +1,39 @@
+<html>
+<head><title>User: {{user}} - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+{% block javascript %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="{{ url_for('static', filename='js/mathjax-config.js') }}"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+{%  endblock %}
+
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+<center>
+  <img class="img-profile rounded-circle" src="{{userav|default("/static/images/logo.png")}}" height="90" width="90">
+  <h1><!--User:--> {% set adminList = ["wiz", "RadialFunction", "bobthefam", "aragoler", "TheCALT", "ezpotd"] %} {% if user in adminList: %} <span class="badge badge-primary badge-counter"><i class="fas fa-crown"></i></span> {% endif %} <!--{{prefix}}--> {{user}} </h1>
+<div class="card" style="margin:10px; padding:10px;">{{status|safe}}</div>
+<br>
+        {% if des: %}
+        <center><div class="card"><center><h2>Discord</h2><hr><h3>{{tag}}</h3><h3><img src="{{avatar}}" height="75" width="75"></h3></center></div></center>
+        <br><br>
+        {% endif %}
+
+        <a href="/profile" class="btn btn-primary">Your Profile</a>
+
+</center>
+</div>
+</div>
+</body>
+</html>
+
+

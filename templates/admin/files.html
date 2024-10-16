@@ -1,0 +1,51 @@
+<html>
+<head><title>Upload Files - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+
+<div class="card">
+      <form action="/admin/files" method="POST" enctype="multipart/form-data">
+      <input required type="file" name="file" id="file" style="padding:40px; margin: 10px;" class="form-control form-control-user">
+      <br>
+      <input type="submit" value="Upload" class="btn btn-primary btn-user btn-block">
+      </form>
+</div>
+<br><br>
+<div class="card" style="padding:10px; margin:10px;">
+<div class="row">
+{% for a in files: %}
+  {% set lm = a[1].split('.')[-1] %}
+                        <div class="col-xl-4 col-md-4 mb-4">
+                            <a href="/files/{{a[1]}}" style="text-decoration:none;"><div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary mb-1">
+                                                {{a[0]}}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{a[1]}} </div>
+                                        </div>
+                                        <div class="col-auto">
+                                          <img src="/files/{{a[1]}}" width="50" height="50" alt=""/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></a>
+                        </div>
+{% endfor %}
+</div>
+</div>
+
+      
+</div>
+</div>
+</body>
+</html>

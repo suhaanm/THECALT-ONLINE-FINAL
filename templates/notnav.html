@@ -1,0 +1,226 @@
+<script src="//cdnjs.cloudflare.com/ajax/libs/Snowstorm/20131208/snowstorm-min.js"></script>
+<script>
+snowStorm.flakesMaxActive = 150; //the maximum number of active snow flakes on the screen, lowering this may increase performance
+snowStorm.snowStick = true; //if true, the snow will stick to the bottom of the screen
+</script>
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top" style="z-index:5000;">
+        <h3><i class="fas fa-angle-up"></i></h3>
+    </a>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.js" integrity="sha512-2rUSTSAeOO02jF6eBqENNqPs1EohenJ5j+1dgDPdXSLz9nOlrr8DJk4zW/lDy8rjhGCSonW3Gx812XJQIKZKJQ==" crossorigin="anonymous"></script>
+
+
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>-->
+<!--here-->
+<!--    <script src="/static/bs/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/bs/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+-->
+    <!-- Core plugin JavaScript-->
+<!--    <script src="/static/bs/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+
+
+    <script src="/static/bs/js/new.min.js"></script>
+-->
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+    <!--<script src='https://code.jquery.com/jquery.min.js'></script>
+    <script src='https://pagecdn.io/lib/jquery-easing/1.4.1/jquery.easing.min.js'></script>-->
+    <script src="https://kit.fontawesome.com/f2a316fd56.js" crossorigin="anonymous"></script>
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link href="/static/bs/css/new.min.css" rel="stylesheet">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+                <div class="sidebar-brand-icon">
+                    <!--<i class="fas fa-laugh-wink"></i>-->
+                    <img src="/static/images/logo.png" width="60" height="60">
+                </div>
+                <div class="sidebar-brand-text mx-3">The CALT</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>Home</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/signup">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Signup</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                
+            </div>
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                PoTD / PoTW
+            </div>
+            <li class="nav-item">
+                <a class="nav-link" href="/potd">
+                    <i class="fas fa-fw fa-calendar-day"></i>
+                    <span>PoTD</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/potw">
+                    <i class="fas fa-fw fa-calendar-week"></i>
+                    <span>PoTW</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <li class="nav-item">
+                <a class="nav-link" href="/discord/invite">
+                    <i class="fab fa-fw fa-discord"></i>
+                    <span>Discord</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle" onclick="flipNav();"></button>
+            </div>
+
+            <!-- Sidebar Message -->
+            <!--<div class="sidebar-card d-none d-lg-flex">
+                <a class="btn btn-primary btn-sm" href=""><i class="fab fa-fw fa-discord"></i></a>
+            </div>-->
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3" onclick="flipNav();">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+<!--
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <span class="badge badge-danger badge-counter">1</span>
+                            </a>
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-glass-cheers text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">August 27, 2021</div>
+                                        <span class="font-weight-bold">Welcome to the new site!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+-->
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <button class="btn btn-primary btn-icon-split" style="padding:6px; margin:6px;">Login / Signup</button>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="/signup">
+                                    <i class="fas fa-user-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Signup
+                                </a>
+                                <a class="dropdown-item" href="/login">
+                                    <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Login
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/bs/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/bs/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/static/bs/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<script>
+if (localStorage.getItem("nav") === "collapsed"){
+$(".sidebar").toggleClass("toggled");
+}
+</script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/static/bs/js/new.min.js"></script>
+    
+    <script src="/static/js/alerts.js" type="text/javascript"></script>
+
+{% block javascript %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="{{ url_for('static', filename='js/mathjax-config.js') }}"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+{%  endblock %}
+
+<script src="/static/bs/vendor/chart.js/Chart.min.js"></script>
+
+<script>
+function flipNav() {
+  if (localStorage.getItem("nav") === "collapsed"){
+localStorage.setItem("nav", "uncollapsed");
+}
+else
+{
+  localStorage.setItem("nav", "collapsed");
+}
+}
+</script>

@@ -1,0 +1,56 @@
+<html>
+<head><title>{{name}} - Course - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+<center><h1>{{name}}</h1><p></p></center>
+<br>
+<center>
+<h4>Upcoming / Incomplete assignments</h4>
+{%if upcoming|length == 0:%}You don't have any upcoming or incomplete assignments!{%endif%}
+                            <div class="row">
+{% for i in upcoming: %}
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/course-assignments/{{course}}/{{i[0]}}" style="text-decoration:none;"><div class="card bg-info text-white shadow">
+                                        <div class="card-body">
+                                          <center><img src="/static/images/logo.png" height="50" width="50"><br>
+                                            {{i[1]}}
+                                            <!--<div class="text-white-50 small"></div>--></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+{% endfor %}                                
+                            </div>
+<br><br>
+<h4>Completed Assignments</h4>
+{%if finished|length == 0:%}You haven't completed any assignments yet!{%endif%}
+                            <div class="row">
+{% for i in finished: %}
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/course-assignments/{{course}}/{{i[0]}}/review" style="text-decoration:none;"><div class="card bg-info text-white shadow">
+                                        <div class="card-body">
+                                          <center><img src="/static/images/logo.png" height="50" width="50"><br>
+                                            {{i[1]}}
+                                            <div class="text-white-50 small">Review</div></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+{% endfor %}                                
+                            </div>
+
+
+</center>
+
+
+</div>
+</div>
+</body>
+</html>

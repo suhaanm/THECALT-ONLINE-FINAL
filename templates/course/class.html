@@ -1,0 +1,108 @@
+<html>
+<head><title>Class - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+
+<div class="row  d-flex flex-column" style=" max-height:80%; height: 80%;  display: flex;flex-direction: column;">
+
+  <div class="col-lg-9 mb-4 h-100 d-inline-block w-100 flex-grow-1">
+  <div class="card h-100 d-inline-block w-100 flex-grow-1">
+    
+
+<div class='wrapper border border-primary' id="messages" style=' height: 90%; padding: 8px; width: 100%;  border-radius:5px; overflow-y: scroll; resize: none; padding: 10px; max-height: 90%;'>
+  
+</div>
+  <!--<textarea class="form-control form-control-user" id="messages" style='width: 100%; flex-grow: 1; border: 1px solid black; overflow-y: scroll; resize: none; padding: 10px;' readonly></textarea>-->
+  <div class='bottom-wrapper' style='display: flex; width: 100%; max-width: 100%;'>
+    <input type='text' class="form-control form-control-user" style='flex-grow: 1;' placeholder='Enter your message here' id="message"/>
+    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm send" style='padding: 4px 16px;'>Send</button>
+  </div>
+
+
+<script>var socket = io();
+$("#message").on('keyup', function (e) {
+  if (e.key === 'Enter' || e.keyCode === 13) {
+    sendMsg();};
+    });
+    $('.send').click(() => {sendMsg();});
+    function sendMsg() {
+      var name = "{{session["Username"]}}";
+      var message = $('#message').val();
+      if (message.length == 0 || message.length > 256) 
+      {
+        alert('Message must be between 1 and 256 characters.');
+      }
+      else {
+        socket.emit('message', {'name': name, 'message':message});
+        $('#message').val('');
+        $('#message').focus();
+        };
+        };
+        socket.on('response', (json) => {
+          $('#messages').html($('#messages').html() +  `                                            <div class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://thecalt.com/static/images/logo.png" width="30" height="30">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="">
+                                      <div class="small text-gray-600">${json.name}</div>
+                                      
+                                        <div class="text-truncate">${json.message}</div>
+                                    </div> 
+                                </div>`);
+          $('#messages').scrollTop($('#messages')[0].scrollHeight);
+          }
+          );</script>
+  </div>
+  </div>
+
+
+
+  <div class="col-lg-3 mb-4 h-100 d-inline-block w-100 flex-grow-1">
+  <div class="card h-100 d-inline-block w-100 flex-grow-1">
+    
+
+<div class='border border-primary' style='display: flex; flex-direction: column; width: calc(100% - 16px); height: 90%; padding: 8px; width: 100%; flex-grow: 1; border-radius:5px; overflow-y: scroll; resize: none; padding: 10px; flex:1 1 auto;'>
+<ul style="list-style-type: none;">
+                <a class="nav-link" href="/practice">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>wiz</span></a>
+                <a class="nav-link" href="/practice">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>wiz</span></a>
+                <a class="nav-link" href="/practice">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>wiz</span></a>
+</ul>
+</div>
+  <div class='bottom-wrapper' style='display: flex; width: 100%;'>
+    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style='padding: 4px 16px;'>Logged in as Wiz</button>
+  </div>
+
+  </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+</div>  
+
+</div>
+</div>
+</body>
+</html>

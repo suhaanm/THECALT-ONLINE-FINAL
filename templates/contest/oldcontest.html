@@ -1,0 +1,140 @@
+<html>
+<head><title>Contest - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+<!--Important MathJax Stuff-->
+{% block javascript %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="{{ url_for('static', filename='js/mathjax-config.js') }}"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+{%  endblock %}
+<!--Important MathJax Stuff-->
+
+
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+
+
+<div class="row">
+  <div class="col-lg-8 mb-4">
+
+      <form action="/contest", method="post" id="exam">
+
+      <center><div class="card">
+<h1><img src="{{ url_for('static', filename='images/logo.png') }}" length="75" width="75">TheCALT Online</h1></div></center>
+
+      <label for="start" style="display:none;">Start Time</label>
+      <input readonly type="text" name="start" id="start" value="{{starttime}}" style="display:none;">
+
+    {% for i in range(problems|length) %}
+    <div style="{% if i != 0: %} display:none; {% endif %}" id="p{{i+1}}">
+    <div class="card" style="padding:10px;">
+      <h2>{{i+1}}</h2>
+    <p>{{problems[i]}}</p>
+    {% set qname = "Q" + i|string %}
+    <input type="text" name="{{qname}}" id="{{qname}}" class="form-control form-control-user" placeholder="Answer..." autocomplete="off" onkeydown="return event.key != 'Enter';">
+    </div>
+    <div class="card">
+    <div class="row">
+    <div class="col-lg-6 mb-4">
+    {% if i != 0: %}
+    <button style="float:left;" onclick="return show('p{{i}}','p{{i+1}}');" class="btn btn-primary btn-user btn-block">Back</button>
+    {% endif %}
+    </div>
+    <div class="col-lg-6 mb-4">
+    {% if i+1 != problems|length : %}
+    <button style="float:right;" onclick="return show('p{{i+2}}','p{{i+1}}');" class="btn btn-primary btn-user btn-block">Next</button>
+    {% endif %}
+    </div>
+    </div>
+    </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="col-lg-4 mb-4">
+
+<div class="card">
+<div class="card">
+  <p id="timer" class="timerfix"></p> 
+</div>
+<div class="card">
+<input type="submit" value="Submit" class="btn btn-primary btn-user btn-block"/>
+</form>
+</div>
+<div class="card">
+<div class="row" style="padding:5px;">
+  {% for i in range(problems|length): %}
+                                <div class="col-lg-3 mb-2">
+                                    <div class="card bg-primary text-white shadow btn-circle">
+                                        <div class="card-body">
+                                            {{i+1}}
+                                        </div>
+                                    </div>
+                                </div>
+  {% endfor %}
+</div>
+</div>
+</div>
+
+
+  </div>
+</div>
+
+<script>
+    function show(shown, hidden) {
+      document.getElementById(shown).style.display='block';
+      document.getElementById(hidden).style.display='none';
+      return false;
+    }
+</script>
+
+<script>
+var countDownDate = new Date("{{duetime}}").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  if (days < 0) {
+    clearInterval(x);
+    document.getElementById("timer").innerHTML = "-";
+    document.getElementById('exam').submit();   
+  }
+
+  else {
+        document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";      
+  }
+
+}, 1000);
+</script>
+
+
+</div>
+</div>
+</body>
+</html>
+
+
+

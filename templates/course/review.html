@@ -1,0 +1,123 @@
+<html>
+<head><title>Review Assignment - {{aname}} - {{cname}} - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--Important MathJax Stuff-->
+{% block javascript %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="{{ url_for('static', filename='js/mathjax-config.js') }}"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+{%  endblock %}
+<!--Important MathJax Stuff-->
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+<style>
+.infoblur{
+-webkit-filter: blur(8px);
+-moz-filter: blur(8px);
+-o-filter: blur(8px);
+-ms-filter: blur(8px);
+filter: blur(8px);
+}
+</style>
+
+
+
+                        <div class="row">
+                          <div class="col-xl-12 col-md-12 mb-12">
+                            <a href="/course-assignments/{{course}}/{{cref}}" style="text-decoration:none;"><div class="card shadow h-100 py-2">
+                                <div class="card-body" style="margin:1px; padding:1px; padding-left:12px;">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-l font-weight-bold text-primary mb-1">
+                                                Retake Test?
+                                                </div>
+                                            <div class="text-s text-primary mb-1">
+                                                Your current responses will be lost in the process!
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></a>
+                        </div>
+                      </div>
+
+<br>
+
+
+
+<center>
+<h1><img src="https://thecalt.com/static/images/logo.png" length="75" width="75"><br>{{aname}} ({{cname}})</h1>
+<br><br><h3>Score: {{score}}/{{maximum}}</h3>
+<h3>Distribution: {{distrib}}</h3>
+<br><br>
+
+    {% for i in range(problems|length) %}
+    <div class="card" style="margin:10px; padding:10px;">
+      <h2>{{i+1}} <button class="btn btn-primary">{{precd[i]}}/{{points[i][0]}}</button></h2>
+    <p>{{problems[i]|safe}}</p>
+    {% set qname = "Q" + i|string %}
+          <div class="form-group">
+            <input readonly type="text" class="form-control form-control-user" id="{{qname}}" name = "{{qname}}" aria-describedby="qans" placeholder="Unattempted..." value="{{fres[i]}}" style="width:45%;">
+            
+          </div>
+          <script>
+          {% if distrib[i] == "✅": %}
+          document.getElementById("{{qname}}").style.backgroundColor = "#d1f6d4";
+          {% endif %}
+          {% if distrib[i] == "⬜": %}
+          document.getElementById("{{qname}}").style.backgroundColor = "#f3f5f6";
+          {% endif %}
+          {% if distrib[i] == "❌": %}
+          document.getElementById("{{qname}}").style.backgroundColor = "#f1c6be";
+          {% endif %}
+          </script>
+      {% if distrib[i] != "✅": %}
+      <h6 class="text-primary">Answer:</h6><h6 id="ans{{i}}" style="cursor:pointer;" onclick="showAns{{i}}();" class="infoblur">{{answers[i]}}</h6>
+      <script>
+      function showAns{{i}}() {
+        document.getElementById("ans{{i}}").classList.remove("infoblur");
+        document.getElementById("ans{{i}}").style.removeProperty('cursor');
+      }
+      </script>
+      {% endif %}
+
+      <h6 class="text-primary">Source:</h6>
+      <h6 id="src{{i}}" style="cursor:pointer;" onclick="showSrc{{i}}();" class="infoblur">{{sources[i]}}</h6>
+      <script>
+      function showSrc{{i}}() {
+        document.getElementById("src{{i}}").classList.remove("infoblur");
+        document.getElementById("src{{i}}").style.removeProperty('cursor');
+      }
+      </script>
+
+
+      <h6 class="text-primary">Solution:</h6>
+      <h6 id="sol{{i}}" style="cursor:pointer;" onclick="showSol{{i}}();" class="infoblur">{{solutions[i]|safe}}</h6>
+      <script>
+      function showSol{{i}}() {
+        document.getElementById("sol{{i}}").classList.remove("infoblur");
+        document.getElementById("sol{{i}}").style.removeProperty('cursor');
+      }
+      </script>
+
+
+    </div><br>
+    {% endfor %}
+    <p></p>
+<br><p></p></div><br><br>
+</center>
+
+
+
+</div>
+</div>
+</body>
+</html>

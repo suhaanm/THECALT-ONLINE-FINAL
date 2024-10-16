@@ -1,0 +1,88 @@
+<html>
+<head><title>Checkpoint - {{cname}} - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <center>
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Checkpoint - {{cname}}</h1>
+                                    </div>
+                                    <form class="user" action="/checkpoint/{{cref}}", method="post">
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input required type="text" class="form-control form-control-user"
+                                            id="firstname" placeholder="First Name..." name="firstname">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input required type="text" class="form-control form-control-user"
+                                            id="lastname" placeholder="Last Name..." name="lastname">
+                                    </div>
+                                </div>
+                          <div class="form-group">
+                          Grade in 2021-22:
+                          <select id="grade" name="grade" class="form-control">
+                          <option value="<=4">≤4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                          </select>
+                          </div>
+                          <br>
+
+                                        <div class="text-center">
+                                          {{amends}}
+                                        </div>
+                                        <input class="btn btn-primary btn-user btn-block" type="submit" value="Continue to Begin"/>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <div class="small">Your username and email associated with this account will be linked!<br>If you've attempted it earlier, you won't be given access to it again!
+                                        {% if cref == "team": %}
+                                          <br><b>Only one person from the team can start the round!<br><br>If you're not in a team, you must take the team round solo or officially register a team</b>
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+</body>
+</html>
+
+
+
+

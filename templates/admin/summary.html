@@ -1,0 +1,76 @@
+<html>
+<head><title>{{cname}} - Contest Data - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+<center><h1>Contest Data - {{cname}}</h1><p></p></center>
+<br>
+<div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Score Reports</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>Full Name</th>
+                                            <th>Grade</th>
+                                            <th>Email</th>
+                                            <th>Distribution</th>
+                                            <th>Score</th>
+                                            <th>More</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      {% for i in range(statusList|length -1,-1,-1): %}
+                                        <tr>
+                                            <td>{{usernameList[i]}}</td>
+                                            <td>{{fnameList[i]}} {{lnameList[i]}}</td>
+                                            <td>{{gradeList[i]}}</td>
+                                            <td>{{emailList[i]}}</td>
+                                            <td>{{distribList[i]}}</td>
+                                            <td>{{scoreList[i]}}</td>
+                                            <td>
+                                              <details>
+                                                <summary>More</summary>
+                                                Start Time: {{startList[i]}}<br>
+                                                End Time: {{aendList[i]}}<br>
+                                                <b>Responses</b>
+                                                <ol>
+                                                {% for j in range(0,respList[i]|length): %}
+                                                <li>{{respList[i][j]}}</li>
+                                                {% endfor %}
+                                                </ol>
+                                              </details>
+                                            </td>
+                                        </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+</div>
+</div>
+    <script src="/static/bs/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/static/bs/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script>
+    /*$(document).ready(function() {
+      $('#dataTable').DataTable();
+    });*/
+    </script>
+</body>
+</html>

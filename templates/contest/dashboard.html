@@ -1,0 +1,51 @@
+<html>
+<head><title>Contest Dashboard - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+<center><h1>Contest Dashboard</h1><p>Available Live Contests will show below</p></center>
+<br>
+<center>
+                            <div class="row">
+                              <!--ONLY ACCESSIBLE BY ADMINS-->
+                              {% if username in adminList: %}
+                              {% endif %}
+
+                              {{openc|safe}}
+                            </div>
+</center>
+
+<br><br>
+<center><h2>Released Scores</h2></center>
+<br>
+<center>
+                            <div class="row">
+
+                              
+                              <div class="col-lg-4 mb-4">
+                                    <a href="/score/report/contest2022" style="text-decoration:none;"><div class="card bg-secondary text-white shadow">
+                                        <div class="card-body">
+                                          <center><img src="/static/images/logo.png" height="50" width="50"><br>
+                                            TheCALT 2022 Contest!
+                                            <div class="text-white-50 small">Live Contest</div></center>
+                                        </div>
+                                    </div></a>
+                                </div>
+
+
+                              
+                            </div>
+</center>
+
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<html>
+<head><title>Assignment - {{aname}} - {{cname}} - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--Important MathJax Stuff-->
+{% block javascript %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="{{ url_for('static', filename='js/mathjax-config.js') }}"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+{%  endblock %}
+<!--Important MathJax Stuff-->
+</head>
+<body id="page-top">
+<div id="wrapper">
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+
+                        <div class="row">
+                          <div class="col-xl-12 col-md-12 mb-12">
+                            <div class="card shadow h-100 py-2">
+                                <div class="card-body" style="margin:1px; padding:1px; padding-left:12px;">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-s text-danger mb-1">
+                                                Answers are not autosaved, so if you're not finishing this at one go, please document your answers!
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+
+<br>
+
+
+      <form action="/course-assignments/{{course}}/{{cref}}", method="post">
+<center>
+<h1><img src="https://thecalt.com/static/images/logo.png" length="75" width="75"><br>{{aname}} ({{cname}})</h1>
+<br><br>
+
+    {% for i in range(problems|length) %}
+    <div class="card" style="margin:10px; padding:10px;">
+      <h2>{{i+1}}</h2>
+    <p>{{problems[i]|safe}}</p>
+    {% set qname = "Q" + i|string %}
+          <div class="form-group">
+            <input type="text" class="form-control form-control-user" id="{{qname}}" name = "{{qname}}" aria-describedby="qans" placeholder="Answer..." style="width:45%;">
+          </div>
+    </div><br>
+    {% endfor %}
+    <p></p>
+    <button type="button" class="btn btn-primary btn-user btn-block" id="opensubmit">Submit</button>
+    <!--<input type="submit" value="Submit" class="btn btn-primary btn-user btn-block"/>
+    </form>--><br><p></p></div><br><br>
+</center>
+
+
+
+<div id="submits" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="text-primary">Confirm Submit</h2>
+      <span class="close" id="closesubmit">&times;</span>
+    </div>
+    <div class="modal-body"><br>
+    <h5>Are you sure you want to submit?</h5>
+    <p>You cannot change your response after submitting!</p>
+    <div class="row">
+      <div class="col-lg-6 mb-4">
+        <button type="button" class="btn btn-danger btn-user btn-block" id="shutsubmit">Cancel</button>
+      </div>
+      <div class="col-lg-6 mb-4">
+        <input type="submit" value="Submit" class="btn btn-success btn-user btn-block"/>
+        </form>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+
+<style>
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  padding-top: 90px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.08); 
+}
+
+.modal-content {
+  position: relative;
+  background-color: white;
+  margin: auto;
+  padding: 0;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  border-radius: 10px;
+  border: 10px solid white;
+}
+
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+.close {
+  color: gray;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #cad3d7;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+</style>
+<style>
+
+@media(prefers-color-scheme:dark){
+.colorature {
+  background-color: #2c2f33;
+}
+
+.modal-content {
+  background-color: #2c2f33;
+  border: 10px solid #2c2f33;
+}
+.modal-header {
+  background-color: #2c2f33;
+}
+
+}
+</style>
+<script>
+var modal1 = document.getElementById("submits");
+var btn1 = document.getElementById("opensubmit");
+var span1 = document.getElementById("closesubmit");
+var bt1 = document.getElementById("shutsubmit");
+
+btn1.onclick = function() {
+  modal1.style.display = "block";
+}
+
+span1.onclick = function() {
+  modal1.style.display = "none";
+}
+
+bt1.onclick = function() {
+  modal1.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal1) {
+    modal1.style.display = "none";
+  }
+}
+</script>
+
+
+
+
+
+
+</div>
+</div>
+</body>
+</html>

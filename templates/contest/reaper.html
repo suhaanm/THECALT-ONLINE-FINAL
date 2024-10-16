@@ -1,0 +1,236 @@
+<html>
+<head><title>Reaper - TheCALT</title>
+<link rel = "icon" href = "{{ url_for('static', filename='images/logo.png') }}" type = "image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="/static/notifs/notifs.css">
+<script src="/static/notifs/notifs.js"></script>
+</head>
+<body id="page-top">
+<div id="wrapper">
+
+{% if session["Username"]: %}
+{% include 'nav.html' %}
+{% else %}
+{% include 'notnav.html' %}
+{% endif %}
+<div class="container-fluid">
+<a href="/reaper/archives">Hit the <b>Archives!</b></a>
+<div id="remainingcontent">
+
+    <div class="card" style="margin:10px; padding:10px;" id="reapercard">
+      <h1>
+        <center><div class="timer" id="timer"></div>
+        <br>
+        <button class="btn btn-primary btn-user btn-block" onclick="reapforme();" id="reapbutton">Reap</button>
+        </center></h1><br> <p id="pid">First to {{reaperLimit}}s wins, {{reaperDiff}}s between reaps<p>
+    </div>
+
+<p id="owo"></p>
+<div class="row">
+                        <div class="col-lg-6">
+
+                            <div class="card shadow mb-4">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Reaper Leaderboard</h6>
+                                </div>
+                                <div class="card-body" style="padding:10px; margin:10px; width:85%">
+                                  <table class="table table-bordered"  width="95%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>Average</th>
+                                            <th>Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reaplb">
+                                      {% for i in reaperlb: %}
+                                      <tr>
+                                      <td>{{i[0]}}</td>
+                                      <td>{{i[1]}}</td>
+                                      <td>{{i[2]}}</td>
+                                      </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                  </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                  <div class="col-lg-6">
+                    <!-- Content Row -->
+                    <div class="row" id="reapList">
+                      {% for i in pastReaps: %}
+                        <div class="col-xl-6 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary mb-1">
+                                                {{i[0]}}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{% if i[0] != "Game Started!": %} {{i[1]}}s {% else %} START {% endif %}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                          {% if i[0] != "Game Started!": %}
+                                            <i class="fas fa-user-clock fa-2x text-gray-300"></i>
+                                          {% else %}
+                                            <i class="fas fa-hourglass-start fa-2x text-gray-300"></i>
+                                          {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      {% endfor %}
+
+                    </div>
+                  </div>
+</div>
+
+
+<script>
+var socket = io();
+
+socket.emit("shutrest", {"user":"{{username}}"});
+
+
+socket.on('shutrest', (json) => {
+  if (json.user == "{{username}}"){
+    window.location.replace("https://contest.thecalt.com/reaper/sessionTimeOut");
+  }
+});
+
+
+var countDownDate = new Date("{{lasttime + ' UTC'}}").getTime();
+
+var currentS = 0;
+
+function reapforme() {
+  var rn = new Date();
+  var rns = rn.toUTCString();
+  document.getElementById("owo").innerHTML = "Requested Reap!";
+  document.getElementById("reapbutton").disabled = true;
+  socket.emit("reaper verify", {"user":"{{username}}"});
+  socket.emit("ijustreapedlol", {"user":"{{username}}", "score":currentS, "time":rns});
+}
+
+socket.on('upd', (json) => {
+  countDownDate = new Date(`${json.newtime} UTC`).getTime();
+  oldList = document.getElementById("reapList").innerHTML;
+  document.getElementById("reapList").innerHTML = `                        <div class="col-xl-6 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary mb-1">
+                                                ${json.name}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${json.sec}s</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-user-clock fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+` + oldList;
+  window.createNotification({
+			  closeOnClick: true,
+			  displayCloseButton: true,
+			  positionClass: 'nfc-top-right',
+			  showDuration: 7500,
+			  theme: "success"
+		    })({
+			    title: "New Reap!",
+			    message: `${json.name} just reaped ${json.sec} seconds!`
+	});
+
+
+});
+
+
+
+socket.on('updatelb', (json) => {
+  document.getElementById("reaplb").innerHTML = json.data;
+});
+
+
+
+//var countDownDate = new Date().getTime();
+
+var x = setInterval(function() {
+
+  var now = new Date().getTime();
+
+  var distance = now - countDownDate;
+
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  var finals = seconds + 60*minutes + 3600*hours + 86400*days;
+  if (days < 0) {
+    clearInterval(x);
+    document.getElementById("timer").innerHTML = "-";
+        window.createNotification({
+			  closeOnClick: true,
+			  displayCloseButton: true,
+			  positionClass: 'nfc-top-right',
+			  showDuration: 60000,
+			  theme: "information"
+		    })({
+			    title: "o",
+			    message: "o"
+		    });
+  }
+  else {
+        document.getElementById("timer").innerHTML = finals + "s "; 
+        socket.emit("reaper verify", {"user":"{{username}}"}, res => {
+          if (res.status){
+	document.getElementById("reapbutton").disabled = false;
+          }
+          else {
+	document.getElementById("reapbutton").disabled = true;
+          }
+        });
+        socket.emit("reaper ended", {"user":"{{username}}"}, res => {
+          if (res.status){
+	document.getElementById("reapbutton").disabled = true;
+  document.getElementById("reapercard").innerHTML = "<h1>The game has ended! <br> Check the leaderboard below for the winner!</h1>";
+  oldList = document.getElementById("reapList").innerHTML;
+  document.getElementById("reapList").innerHTML = `                        <div class="col-xl-6 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Game Ended!</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">END</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-hourglass-end fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+` + oldList;
+          }
+          else {
+            document.getElementById("pid").innerHTML = "First to {{reaperLimit}}s wins, {{reaperDiff}}s between reaps.";
+          }
+        });
+        currentS = finals;
+  }
+}, 1000);
+</script>
+</div>
+</div>
+</div>
+
+
+</body>
+</html>
